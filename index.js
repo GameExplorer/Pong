@@ -5,17 +5,30 @@ const scoreText = document.querySelector("#scoreText");
 const resetBtn = document.querySelector("#resetBtn");
 const gameWidth = gameBoard.width;
 const gameHeight = gameBoard.height;
-const boardBackground = "forestgreen";
+const boardBackground = "black";
+
+const boardBackground1 = "yellow";
+
+const coins = document.querySelector("#coins");
+const buy = document.querySelector("#ShopItemBtn");
 
 // player colors
 const paddle1Color = "white";
-const paddle2Color = "blue";
+const paddle2Color = "white";
 
+const paddle1Color2 = "red";
+
+const player1ScoreColor = "blue";
+const player2ScoreColor = "red";
+
+const lineColor = "white";
 const paddleBorder = "black";
-const ballColor = "yellow"
+const ballColor = "white"
 const ballBorderColor = "black";
 const ballRadius = 12.5;
-const paddleSpeed = 10;
+const paddleSpeed = 60;
+
+let coins1 = 0;
 
 let intervalID;
 let ballSpeed = 1.1;
@@ -41,14 +54,23 @@ let paddle2 = {
     y: gameHeight - 100
 };
 
+let linePosition = {
+    width: 7,
+    height: gameHeight,
+    x: 250,
+    y: 0
+}
+
 window.addEventListener("keydown", changeDirection);
 resetBtn.addEventListener("click", resetGame);
+buy.addEventListener("click", onBuy);
 
 gameStart();
 
 function gameStart() {
     createBall();
     nextTick();
+
 };
 function nextTick(){
     intervalID = setTimeout(() => {
@@ -64,6 +86,7 @@ function nextTick(){
 function clearBoard(){
     ctx.fillStyle = boardBackground;
     ctx.fillRect(0,0, gameWidth, gameHeight);
+    
 };
 function drawPaddles(){
     ctx.strokeStyle = paddleBorder;
@@ -76,6 +99,11 @@ function drawPaddles(){
     ctx.fillRect(paddle2.x, paddle2.y, paddle2.width, paddle2.height);
     ctx.strokeRect(paddle2.x, paddle2.y, paddle2.width, paddle2.height);
 
+    ctx.fillStyle = lineColor;
+    ctx.fillRect(linePosition.x, linePosition.y, linePosition.width, linePosition.height);
+    ctx.strokeRect(linePosition.x, linePosition.y, linePosition.width, linePosition.height);
+
+    
 };
 function createBall(){
     ballSpeed = 1;
@@ -86,10 +114,10 @@ function createBall(){
         ballXDirection = -1;
     }
     if(Math.round(Math.random()) == 1){
-        ballYDirection = 1;
+        ballYDirection = Math.random()*1;
     }
     else {
-        ballYDirection = -1;
+        ballYDirection = Math.random()*-1;
     }
 
     ballX = gameWidth / 2;
@@ -116,7 +144,7 @@ function checkCollision(){
         ballYDirection *= -1;
     }
     if(ballY >= gameHeight - ballRadius) {
-        ballYDirection *= 1;
+        ballYDirection *= -1;
     }
 
     if(ballX <= 0) {
@@ -147,8 +175,9 @@ function checkCollision(){
         }
     }
 };
-function changeDirection(){
+function changeDirection(event){
     const keyPressed = event.keyCode;
+    //console.log(keyPressed);
     const paddle1Up = 87;
     const paddle1Down = 83;
     const paddle2Up = 38;
@@ -167,7 +196,7 @@ function changeDirection(){
             }
             break;
         case(paddle2Up):
-            if(paddle2.y < 0) {
+            if(paddle2.y > 0) {
                 paddle2.y -= paddleSpeed;
             }
             break;
@@ -181,7 +210,56 @@ function changeDirection(){
 };
 function updateScore(){
     scoreText.textContent = `${player1Score} : ${player2Score}`;
+
+    if(player1Score > player2Score) {
+        scoreText.style.color = player1ScoreColor;
+        coinsIncrement();
+
+    }
+    else if(player1Score < player2Score) {
+        coinsIncrement();
+
+        scoreText.style.color = player2ScoreColor;
+    }
+    else {
+        coinsIncrement();
+
+        scoreText.style.color = "black";
+    }
+
+    if(player1Score == 5 || player2Score == 5) {
+        clearInterval(intervalID);
+        if(player1Score == 5) {
+            scoreText.textContent = "Player 1 wins!";
+            scoreText.style.color = player1ScoreColor;
+            //wait 1000ms
+            delay(1000).then(() => resetGame());
+        }
+        else {
+            scoreText.textContent = "Player 2 wins!";
+            scoreText.style.color = player2ScoreColor;
+            delay(1000).then(() => resetGame());
+
+        }
+    }
 };
+
+function coinsIncrement() {
+    coins1 += 100;
+    coins.textContent = `${coins1}`;
+}
+
+function onBuy() {
+    coins1 -= 100;
+    coins.textContent = `${coins1}`;
+
+
+}
+
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 function resetGame(){
     player1Score = 0;
     player2Score = 0;

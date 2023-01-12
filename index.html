@@ -2,12 +2,36 @@
 <html>
 <head>
     <title>Pong Game</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <div id="gameContainer">
+<body id="gameContainer">
+    <div >
         <canvas id="gameBoard" width = "500" height = "500"></canvas>
         <div id="scoreText">0 : 0</div>
         <button id="resetBtn">Reset</button>
+    </div>
+    <div>
+        <div id="coins">0</div>
+    </div>
+    <div id="Shop">
+        <div id="ShopTitle">Shop</div>
+        <div id="ShopItems">
+            <div class="ShopItem">
+                <div class="ShopItemName">Paddle Size</div>
+                <div class="ShopItemPrice">100</div>
+                <button class="ShopItemBtn">Buy</button>
+            </div>
+            <div class="ShopItem">
+                <div class="ShopItemName">Ball Speed</div>
+                <div id="Itemprice">100</div>
+                <button id="ShopItemBtn">Buy</button>
+            </div>
+            <div class="ShopItem">
+                <div class="ShopItemName">Ball Size</div>
+                <div class="ShopItemPrice">100</div>
+                <button class="ShopItemBtn">Buy</button>
+            </div>
+        </div>
     </div>
     <script src="index.js"></script>
 
