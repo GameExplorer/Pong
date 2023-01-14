@@ -6,16 +6,9 @@ const gameWidth = gameBoard.width;
 const gameHeight = gameBoard.height;
 const boardBackground = "black";
 
-const boardBackground1 = "yellow";
-
-const coins = document.querySelector("#coins");
-const buy = document.querySelector("#ShopItemBtn");
-
 // player colors
 const paddle1Color = "white";
 const paddle2Color = "white";
-
-const paddle1Color2 = "red";
 
 const player1ScoreColor = "blue";
 const player2ScoreColor = "red";
@@ -62,7 +55,6 @@ let linePosition = {
 
 window.addEventListener("keydown", changeDirection);
 resetBtn.addEventListener("click", resetGame);
-buy.addEventListener("click", onBuy);
 
 gameStart();
 
@@ -212,16 +204,13 @@ function updateScore(){
 
     if(player1Score > player2Score) {
         scoreText.style.color = player1ScoreColor;
-        coinsIncrement();
 
     }
     else if(player1Score < player2Score) {
-        coinsIncrement();
 
         scoreText.style.color = player2ScoreColor;
     }
     else {
-        coinsIncrement();
 
         scoreText.style.color = "black";
     }
@@ -243,17 +232,6 @@ function updateScore(){
     }
 };
 
-function coinsIncrement() {
-    coins1 += 100;
-    coins.textContent = `${coins1}`;
-}
-
-function onBuy() {
-    coins1 -= 100;
-    coins.textContent = `${coins1}`;
-
-
-}
 
 function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
