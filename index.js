@@ -204,14 +204,11 @@ function updateScore(){
 
     if(player1Score > player2Score) {
         scoreText.style.color = player1ScoreColor;
-
     }
     else if(player1Score < player2Score) {
-
         scoreText.style.color = player2ScoreColor;
     }
     else {
-
         scoreText.style.color = "black";
     }
 
